@@ -32,6 +32,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.jsoup:jsoup:1.15.3'
+
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
