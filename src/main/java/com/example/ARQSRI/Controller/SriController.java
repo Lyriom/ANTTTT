@@ -23,16 +23,13 @@ public class SriController {
     @GetMapping("/consultar")
     public ResponseEntity<?> consultarRuc(@RequestParam String ruc) {
         try {
-            // 1. Verificar existencia
             String urlExiste = "https://srienlinea.sri.gob.ec/sri-catastro-sujeto-servicio-internet/rest/ConsolidadoContribuyente/existePorNumeroRuc?numeroRuc=" + ruc;
             Boolean existe = restTemplate.getForObject(urlExiste, Boolean.class);
 
             if (existe == null || !existe) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("El RUC no existe en el SRI");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El RUC no existe en el SRI");
             }
 
-            // 2. Obtener datos del contribuyente (como lista)
             String urlDatos = "https://srienlinea.sri.gob.ec/sri-catastro-sujeto-servicio-internet/rest/ConsolidadoContribuyente/obtenerPorNumerosRuc?ruc=" + ruc;
 
             HttpHeaders headers = new HttpHeaders();
@@ -48,10 +45,9 @@ public class SriController {
             List<ContribuyenteDTO> lista = response.getBody();
 
             if (response.getStatusCode() == HttpStatus.OK && lista != null && !lista.isEmpty()) {
-                return ResponseEntity.ok(lista.get(0)); // solo el primero
+                return ResponseEntity.ok(lista.get(0));
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Datos no disponibles");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Datos no disponibles");
             }
 
         } catch (Exception e) {
@@ -60,7 +56,6 @@ public class SriController {
         }
     }
 
-    // Nuevo: consultar matrícula del vehículo por placa
     @GetMapping("/matricula")
     public ResponseEntity<?> obtenerMatricula(@RequestParam String placa) {
         try {
@@ -73,7 +68,6 @@ public class SriController {
         }
     }
 
-    // Nuevo: consultar puntos de licencia por cédula y placa
     @GetMapping("/puntos")
     public ResponseEntity<?> obtenerPuntosLicencia(@RequestParam String cedula, @RequestParam String placa) {
         try {
@@ -86,4 +80,3 @@ public class SriController {
         }
     }
 }
-
