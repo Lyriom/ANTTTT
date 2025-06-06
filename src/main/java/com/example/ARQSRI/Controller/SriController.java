@@ -1,6 +1,7 @@
 package com.example.ARQSRI.Controller;
 
 import com.example.ARQSRI.model.ContribuyenteDTO;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -68,6 +69,7 @@ public class SriController {
         }
     }
 
+    @Cacheable(value = "puntosLicencia", key = "#cedula + '_' + #placa")
     @GetMapping("/puntos")
     public ResponseEntity<?> obtenerPuntosLicencia(@RequestParam String cedula, @RequestParam String placa) {
         try {
@@ -79,4 +81,5 @@ public class SriController {
                     .body("Error al consultar puntos: " + e.getMessage());
         }
     }
+
 }
